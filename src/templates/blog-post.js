@@ -6,6 +6,11 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm, scale } from "../utils/typography"
 
+/**
+ * STEP 1: Import `remarkForm` higher-order component
+ */
+import { remarkForm } from "gatsby-tinacms-remark"
+
 class BlogPostTemplate extends React.Component {
   render() {
     const post = this.props.data.markdownRemark
@@ -80,8 +85,15 @@ class BlogPostTemplate extends React.Component {
   }
 }
 
+/**
+ * STEP 2: Wrap your template with `remarkForm`
+ */
 export default BlogPostTemplate
+// export default remarkForm(BlogPostTemplate)
 
+/**
+ * STEP 3: Add `...TinaRemark` to your `markdownRemark` query.
+ */
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
     site {
@@ -90,6 +102,7 @@ export const pageQuery = graphql`
       }
     }
     markdownRemark(fields: { slug: { eq: $slug } }) {
+      ...TinaRemark
       id
       excerpt(pruneLength: 160)
       html

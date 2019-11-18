@@ -5,6 +5,26 @@ module.exports = {
     siteUrl: `https://gatsby-starter-blog-demo.netlify.com/`,
   },
   plugins: [
+    /**
+     * TinaCMS-Gatsby Plugins
+     */
+    {
+      // 1. Adds the TinaCMS sidebar to the Gatsby siet.
+      resolve: "gatsby-plugin-tinacms",
+      options: {
+        plugins: [
+          // 2. Adds endpoints to Gatsby server for interacting with Git
+          "gatsby-tinacms-git",
+          // 3. Provides helpers for modifyin Json files from `gatsby-transformer-json`
+          "gatsby-tinacms-json",
+          // 4. Provides helpers for editing Markdown files from `gatsby-transformer-remark`
+          "gatsby-tinacms-remark",
+        ],
+      },
+    },
+    /**
+     * Other Gatsby Plugins
+     */
     {
       resolve: `gatsby-source-filesystem`,
       options: {
