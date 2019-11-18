@@ -6,6 +6,13 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 import { rhythm } from "../utils/typography"
 
+/**
+ * STEP 1: Import Some Stuff
+ */
+import slugify from "slugify"
+import { withPlugins } from "react-tinacms"
+import { RemarkCreatorPlugin } from "gatsby-tinacms-remark"
+
 class BlogIndex extends React.Component {
   render() {
     const { data } = this.props
@@ -47,6 +54,38 @@ class BlogIndex extends React.Component {
   }
 }
 
+/**
+ * STEP 2: Create the Plugin
+ */
+const BlogPostCreator = new RemarkCreatorPlugin({
+  label: "Add Post",
+
+  fields: [
+    {
+      name: "title",
+      label: "Title",
+      component: "text",
+      validate(value) {
+        if (!value) {
+          return "Required."
+        }
+      },
+    },
+  ],
+
+  filename: ({ title }) => {
+    return `content/blog/${slugify(title).toLowerCase()}/index.md`
+  },
+
+  frontmatter: ({ title }) => {
+    return {
+      title,
+      date: new Date(),
+    }
+  },
+})
+
+// export default withPlugins(BlogIndex, [BlogPostCreator])
 export default BlogIndex
 
 export const pageQuery = graphql`
