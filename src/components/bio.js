@@ -14,25 +14,23 @@ import { rhythm } from "../utils/typography"
 const Bio = () => {
   const data = useStaticQuery(graphql`
     query BioQuery {
-      avatar: file(absolutePath: { regex: "/profile-pic.jpg/" }) {
+      avatar: file(absolutePath: { regex: "/nolan.jpg/" }) {
         childImageSharp {
           fixed(width: 50, height: 50) {
             ...GatsbyImageSharpFixed
           }
         }
       }
-      site {
-        siteMetadata {
-          author
-          social {
-            twitter
-          }
+      author: dataJson(pk: { eq: "author" }) {
+        name
+        social {
+          twitter
         }
       }
     }
   `)
 
-  const { author, social } = data.site.siteMetadata
+  const { name, social } = data.author
   return (
     <div
       style={{
@@ -42,7 +40,7 @@ const Bio = () => {
     >
       <Image
         fixed={data.avatar.childImageSharp.fixed}
-        alt={author}
+        alt={name}
         style={{
           marginRight: rhythm(1 / 2),
           marginBottom: 0,
@@ -54,8 +52,8 @@ const Bio = () => {
         }}
       />
       <p>
-        Written by <strong>{author}</strong> who lives and works in San
-        Francisco building useful things.
+        Written by <strong>{name}</strong> who lives and works in Canada
+        building useful things.
         {` `}
         <a href={`https://twitter.com/${social.twitter}`}>
           You should follow him on Twitter
