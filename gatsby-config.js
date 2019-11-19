@@ -20,6 +20,9 @@ module.exports = {
           // 4. Provides helpers for editing Markdown files from `gatsby-transformer-remark`
           "gatsby-tinacms-remark",
         ],
+        sidebar: {
+          position: "fixed",
+        },
       },
     },
     /**
